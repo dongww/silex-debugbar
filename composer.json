@@ -1,0 +1,24 @@
+{
+    "name": "dongww/silex-debugbar",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "dongww",
+            "email": "dongww@gmail.com",
+            "homepage": "http://www.dongww.com",
+            "role": "Developer"
+        }
+    ],
+    "keywords": ["silex", "debug", "debugbar"],
+    "description": "php-debugbar provider for silex.",
+    "require": {
+        "silex/silex": "*",
+        "maximebf/debugbar": "1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}
