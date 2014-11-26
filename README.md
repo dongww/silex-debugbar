@@ -14,7 +14,7 @@ $app->register(new Dongww\Silex\Provider\DebugBarServiceProvider());
 
 The JS and CSS file will be loaded automatically.
 If you want change the route for JS and CSS files, you can set the option 'debug_bar.path',
-default is '/debugbar/. example:
+default is '/debugbar'. example:
 
 ~~~ .php
 $app->register(new Dongww\Silex\Provider\DebugBarServiceProvider(), [
