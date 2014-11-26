@@ -1,31 +1,9 @@
-php-debugbar provider for silex.
-
-![debugBar](debug-bar.jpg)
-
-##Install
-
-`composer require dongww/silex-debugbar *`
-
-##Usage
-
-~~~ .php
-$app->register(new Dongww\Silex\Provider\DebugBarServiceProvider());
-~~~
-
-The JS and CSS file will be loaded automatically.
-If you want change the route for JS and CSS files, you can set the option 'debug_bar.path',
-default is '/debugbar/. example:
-
-~~~ .php
-$app->register(new Dongww\Silex\Provider\DebugBarServiceProvider(), [
-    'debug_bar.path' => '/debug', //Optional, Default is '/debugbar'.
-]);
-~~~
-
-##Example
-
-~~~ .php
 <?php
+/**
+ * User: dongww
+ * Date: 2014-11-26
+ * Time: 12:41
+ */
 use Silex\Application;
 use Dongww\Silex\Provider\DebugBarServiceProvider;
 
@@ -52,4 +30,3 @@ $app->get('/', function (Application $app) {
 });
 
 $app->run();
-~~~

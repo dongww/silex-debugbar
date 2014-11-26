@@ -13,8 +13,11 @@
     "keywords": ["silex", "debug", "debugbar"],
     "description": "php-debugbar provider for silex.",
     "require": {
-        "silex/silex": "*",
+        "silex/silex": "<2.0",
         "maximebf/debugbar": "1.*"
+    },
+    "suggest": {
+        "doctrine/dbal": "2.2.*"
     },
     "autoload": {
         "psr-4": {

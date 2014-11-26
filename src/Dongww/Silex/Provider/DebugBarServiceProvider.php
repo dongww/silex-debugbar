@@ -29,6 +29,8 @@ class DebugBarServiceProvider implements ServiceProviderInterface
     {
         $this->app = $app;
 
+        $app['debug_bar.path'] = '/debugbar';
+
         if (!isset($app['debug_bar'])) {
             $app['debug_bar'] = $app->share(function () {
                 return new StandardDebugBar();
@@ -40,8 +42,6 @@ class DebugBarServiceProvider implements ServiceProviderInterface
                 $app['debug_bar']->addCollector(new DoctrineCollector($debugStack));
             }
         }
-
-        $app['debug_bar.path'] = isset($app['debug_bar.path']) ? $this->app['debug_bar.path'] : '/debugbar';
     }
 
     /**
@@ -79,7 +79,13 @@ class DebugBarServiceProvider implements ServiceProviderInterface
         ob_end_clean();
 
         $content = $response->getContent();
-        $content = str_replace("</body>", $debugContent . '</body>', $content);
+
+        if (false === strpos($content, '</body>')) {
+            $content .= $debugContent;
+        } else {
+            $content = str_replace("</body>", $debugContent . '</body>', $content);
+        }
+
         $event->getResponse()->setContent($content);
     }
 
