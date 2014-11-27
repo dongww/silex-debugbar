@@ -19,7 +19,7 @@ if ($app['debug']) {
     ]);
 }
 
-$app->get('/', function (Application $app, \Symfony\Component\HttpFoundation\Request $request) {
+$app->get('/', function (Application $app) {
     $app['debug_bar']['messages']->addMessage("Hello DebugBar!");
     $app['debug_bar']['messages']->addMessage([
         'a' => 1,
