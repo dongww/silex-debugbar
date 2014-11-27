@@ -29,7 +29,8 @@ class DebugBarServiceProvider implements ServiceProviderInterface
     {
         $this->app = $app;
 
-        $app['debug_bar.path'] = '/debugbar';
+        $app['debug_bar.path']     = null;
+        $app['debug_bar.auto_res'] = true;
 
         if (!isset($app['debug_bar'])) {
             $app['debug_bar'] = $app->share(function () {
@@ -69,9 +70,17 @@ class DebugBarServiceProvider implements ServiceProviderInterface
             return;
         }
 
-        $baseUrl = $event->getRequest()->getBaseUrl();
+        $path = null;
 
-        $render = $this->app['debug_bar']->getJavascriptRenderer($baseUrl . $this->app['debug_bar.path']);
+        if ($this->app['debug_bar.auto_res']) {
+            $scriptName = $event->getRequest()->server->get('SCRIPT_NAME');
+            $path       = $scriptName . $this->app['debug_bar.path'];
+        } else {
+            $path = $this->app['debug_bar.path'];
+        }
+
+        $render = $this->app['debug_bar']->getJavascriptRenderer($path);
+
         ob_start();
         echo $render->renderHead();
         echo $render->render();
@@ -93,12 +102,14 @@ class DebugBarServiceProvider implements ServiceProviderInterface
     {
         $app['dispatcher']->addListener(KernelEvents::RESPONSE, [$this, 'onKernelResponse'], -1000);
 
-        $app->get($app['debug_bar.path'] . '/{path}', function ($path) use ($app) {
-            return $app->sendFile(
-                $app['debug_bar']->getJavascriptRenderer()->getBasePath() . '/' . $path,
-                200,
-                ['Content-Type' => 'text/css']
-            );
-        })->assert('path', '.+');
+        if ($this->app['debug_bar.auto_res']) {
+            $app->get($app['debug_bar.path'] . '/{path}', function ($path) use ($app) {
+                return $app->sendFile(
+                    $app['debug_bar']->getJavascriptRenderer()->getBasePath() . '/' . $path,
+                    200,
+                    ['Content-Type' => 'text/css']
+                );
+            })->assert('path', '.+');
+        }
     }
 }

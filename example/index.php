@@ -14,11 +14,12 @@ $app['debug'] = true;
 
 if ($app['debug']) {
     $app->register(new DebugBarServiceProvider(), [
-        'debug_bar.path' => '/debug', //Optional, default is '/debugbar'.
+//        'debug_bar.auto_res' => false, //Optional, default is true
+//        'debug_bar.path'     => '/debugbar', //Optional, default is null.
     ]);
 }
 
-$app->get('/', function (Application $app) {
+$app->get('/', function (Application $app, \Symfony\Component\HttpFoundation\Request $request) {
     $app['debug_bar']['messages']->addMessage("Hello DebugBar!");
     $app['debug_bar']['messages']->addMessage([
         'a' => 1,

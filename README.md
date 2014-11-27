@@ -12,13 +12,16 @@ php-debugbar provider for silex.
 $app->register(new Dongww\Silex\Provider\DebugBarServiceProvider());
 ~~~
 
-The JS and CSS file will be loaded automatically.
-If you want change the route for JS and CSS files, you can set the option 'debug_bar.path',
-default is '/debugbar'. example:
+The JS and CSS files will be loaded from vendor directory automatically.
+
+If vendor directory or debugBar's Resources directory already exists in the web public directory,
+you can set option 'debug_bar.auto_res' to `false`, and set option 'debug_bar.path' to resources directory.
+This will speed up the loading speed.
 
 ~~~ .php
 $app->register(new Dongww\Silex\Provider\DebugBarServiceProvider(), [
-    'debug_bar.path' => '/debug', //Optional, Default is '/debugbar'.
+    'debug_bar.auto_res' => false, //Optional, default is true
+    'debug_bar.path' => '/debugbar', //Optional, default is null.
 ]);
 ~~~
 
@@ -36,17 +39,19 @@ $app['debug'] = true;
 
 if ($app['debug']) {
     $app->register(new DebugBarServiceProvider(), [
-        'debug_bar.path' => '/debug', //Optional, default is '/debugbar'.
+//        'debug_bar.auto_res' => false, //Optional, default is true
+//        'debug_bar.path'      => '/debugbar', //Optional, default is null.
     ]);
 }
 
-$app->get('/', function (Application $app) {
+$app->get('/', function (Application $app, \Symfony\Component\HttpFoundation\Request $request) {
     $app['debug_bar']['messages']->addMessage("Hello DebugBar!");
     $app['debug_bar']['messages']->addMessage([
         'a' => 1,
         'b' => 2,
         'c' => 3,
     ]);
+    $app['debug_bar']['messages']->addMessage($request);
 
     return '<body><h1>This is an example for silex_debugbar provider.</h1></body>';
 });
