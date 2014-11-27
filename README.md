@@ -58,3 +58,7 @@ $app->get('/', function (Application $app, \Symfony\Component\HttpFoundation\Req
 
 $app->run();
 ~~~
+
+##Doctrine DBAL logs
+
+If you use Doctrine Provider, sql logs will be automatically captured and displayed in debugBar.
