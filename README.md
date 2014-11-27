@@ -44,14 +44,13 @@ if ($app['debug']) {
     ]);
 }
 
-$app->get('/', function (Application $app, \Symfony\Component\HttpFoundation\Request $request) {
+$app->get('/', function (Application $app) {
     $app['debug_bar']['messages']->addMessage("Hello DebugBar!");
     $app['debug_bar']['messages']->addMessage([
         'a' => 1,
         'b' => 2,
         'c' => 3,
     ]);
-    $app['debug_bar']['messages']->addMessage($request);
 
     return '<body><h1>This is an example for silex_debugbar provider.</h1></body>';
 });
