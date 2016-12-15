@@ -7,8 +7,10 @@
 
 namespace Dongww\Silex\Provider;
 
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use DebugBar\StandardDebugBar;
@@ -21,11 +23,11 @@ use Doctrine\DBAL\Logging\DebugStack;
  * Class DebugBarProvider
  * @package Dongww\SilexBase\Provider
  */
-class DebugBarServiceProvider implements ServiceProviderInterface
+class DebugBarServiceProvider implements  ServiceProviderInterface, BootableProviderInterface
 {
     protected $app;
 
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $this->app = $app;
 
@@ -33,9 +35,9 @@ class DebugBarServiceProvider implements ServiceProviderInterface
         $app['debug_bar.auto_res'] = true;
 
         if (!isset($app['debug_bar'])) {
-            $app['debug_bar'] = $app->share(function () {
+            $app['debug_bar'] = function () {
                 return new StandardDebugBar();
-            });
+            };
 
             if (isset($app['db'])) {
                 $debugStack = new DebugStack();

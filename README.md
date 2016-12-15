@@ -1,4 +1,4 @@
-php-debugbar provider for silex.
+php-debugbar provider for Silex 2.*.
 
 ![debugBar](debug-bar.jpg)
 
